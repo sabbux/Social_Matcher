@@ -53,7 +53,7 @@ df['b_communication_style'] = df['b_communication_style'].map(mappa_stili)
 
 
 # Salva il DataFrame aggiornato in un nuovo file CSV
-cartella_resource = os.path.join(cartella_script, 'resource')
+cartella_resource = os.path.join(cartella_script, 'resources')
 
 if not os.path.exists(cartella_resource):
     os.makedirs(cartella_resource)

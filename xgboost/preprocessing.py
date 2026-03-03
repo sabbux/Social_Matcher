@@ -9,7 +9,7 @@ from xgboost_config import get_xgb_model
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-resource_dir = os.path.join(base_dir, "resource")
+resource_dir = os.path.join(base_dir, "resources")
 
 os.makedirs(resource_dir, exist_ok=True)
 
