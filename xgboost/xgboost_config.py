@@ -3,20 +3,28 @@ from xgboost import XGBRegressor
 
 def get_xgb_model():
 
-    """Restituisce il modello XGBoost non addestrato con gli iperparametri configurati."""
-
+    """Modello xgboost bilanciato per raggiungere punteggi realistici e ampi (es. 40-80), senza rischiare l'overfitting."""
     return XGBRegressor(
+        # --- PARAMETRI DI BASE ---
+        n_estimators=250,       # Numero di alberi bilanciato per garantire un ottimo apprendimento senza allungare troppo i tempi.
+        learning_rate=0.05,     # Passo di apprendimento stabile, ideale per migliorare gradualmente senza sbalzi.
         
-    n_estimators=200,       # Numero di alberi decisionali da costruire (né troppi, né pochi).
-    learning_rate=0.05,     # Velocità di apprendimento: basso = impara a piccoli passi, ma meglio.
-    max_depth=4,            # Profondità degli alberi: ridotta per non imparare a memoria i dati.
-    min_child_weight=5,     # Peso minimo per creare un ramo: alzato per ignorare casi troppo specifici.
-    gamma=0.1,              # Crea un nuovo nodo solo se riduce l'errore almeno di questo valore.
-    subsample=0.7,          # Usa il 70% dei dati (scelti a caso) per albero, aumentando la robustezza.
-    colsample_bytree=0.7,   # Usa il 70% delle colonne per albero, per non dipendere da singole feature.
-    reg_alpha=0.1,          # Regolarizzazione L1: aiuta a ignorare del tutto le feature poco utili.
-    reg_lambda=1.0,         # Regolarizzazione L2: evita che i "pesi" matematici diventino troppo estremi.
-    n_jobs=-1,              # Usa tutti i core del computer per velocizzare l'addestramento.
-    random_state=42,        # Fissa la casualità per avere risultati identici se si ripete il codice.
-    eval_metric='rmse'      # Metrica di valutazione (Root Mean Squared Error) adatta alla regressione.
-)
+        # --- MOTORE (Profondità e gestione dei casi rari) ---
+        max_depth=6,            # Permette incroci complessi (es. Età + Lavoro + Ambizione + Estroversione) per scovare le dinamiche che portano a profili da 80 o da 40.
+        min_child_weight=2,     # Il compromesso perfetto: permette di esplorare i picchi, ma esige che ci siano almeno 2 coppie simili nel dataset per confermare la regola (evita le anomalie).
+        gamma=0.0,              # Nessun blocco alla ramificazione, lasciando libertà all'albero di crescere e trovare dettagli.
+        
+        # --- FIDUCIA NEI DATI (Certezze e robustezza) ---
+        subsample=0.85,         # L'albero usa l'85% dei dati. Avendo una visione molto ampia e sicura, oserà restituire punteggi più decisi, pur mantenendo un 15% di casualità.
+        colsample_bytree=0.85,  # Valuta l'85% delle caratteristiche per ogni decisione, evitando di fissarsi solo su una singola variabile dominante.
+        
+        # --- I FRENI MATEMATICI (Bilanciati per non schiacciare le previsioni verso la media) ---
+        reg_alpha=0.1,          # Penalità L1 leggera: sufficiente per spegnere il "rumore" irrilevante senza soffocare il modello.
+        reg_lambda=1.0,         # Valore standard (neutro) di XGBoost: non "taglia" artificialmente i punteggi estremi, permettendo alla previsione di spingersi liberamente verso gli alti e i bassi.
+        
+        # --- IMPOSTAZIONI DI SISTEMA ---
+        n_jobs=-1,              # Usa tutti i processori disponibili per velocizzare l'elaborazione.
+        random_state=42,        # Rende i risultati identici e riproducibili ad ogni avvio.
+        eval_metric='rmse',     # Misuratore di errore ideale per la regressione lineare.
+        enable_categorical=True # Permette a XGBoost di leggere nativamente i testi (es. "Tech", "Science").
+    )
