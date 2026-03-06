@@ -105,4 +105,13 @@ Una volta che l'addestramento ha generato il modello e hai creato il database st
 
 3. **Esplora la Piattaforma:** Si aprirà automaticamente una finestra nel tuo browser. Usa i tab in alto per navigare tra le funzionalità:
    - **👥 Confronto di Gruppo:** Compila i dati per un gruppo ristretto (fino a 5 amici o colleghi) per verificare istantaneamente se condividono la stessa struttura psicologica.
-   - **🔍 Trova Profili Affini:** Compila solo il tuo profilo personale. Il motore logico calcolerà la tua distanza dai centroidi e pescherà dal database i 3 partner ideali basati sul principio di omofilia!   
+   - **🔍 Trova Profili Affini:** Compila solo il tuo profilo personale. Il motore logico calcolerà la tua distanza dai centroidi e pescherà dal database i 3 partner ideali basati sul principio di omofilia!
+
+## 👥 Team
+
+Il progetto è stato sviluppato da:
+* [Francesco Sabetta](https://github.com/sabbux)
+* [Gloria Scarallo](https://github.com/gloriascarallo)
+
+---
+Questa repository contiene la completa implementazione del progetto accademico del corso di `Machine Learning` di Unisa.   
