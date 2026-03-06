@@ -49,6 +49,8 @@ Assicurati di avere **Python 3.11.9** installato sul sistema. Per avviare i mode
 
 ```bash
 pip install -r requirements.txt
+```
+
 ---
 
 ## 🛠️ Come usare il progetto?
