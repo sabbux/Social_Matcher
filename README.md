@@ -14,10 +14,13 @@ Il progetto è suddiviso in due moduli principali, ciascuno dedicato a un modell
 ### 1. Modulo XGBoost (`/xgboost`)
 Questo modulo addestra un modello predittivo per calcolare in tempo reale la percentuale di affinità tra due profili ("Persona A" e "Persona B").
 
-- `app.py`: Un'applicazione intuitiva sviluppata in **Tkinter** che permette agli utenti di inserire manualmente i parametri di due profili (età, livello di istruzione, carriera, stili comunicativi e tratti di personalità tra cui apertura, estroversione, cordialità, coscienziosità) e ottenere la stima percentuale di affinità calcolata dal modello addestrato.
-- `training.py`: Lo script principale per addestrare il modello. Carica i dati, li divide in Train e Test (80/20) ed esegue l'addestramento costruendo una pipeline completa che integra preprocessing e modello XGBoost. Salva l'intera pipeline in `social_matcher_model.pkl`. Vengono inoltre generati i file `X_test.pkl` e `y_test.pkl`, che contengono rispettivamente i dati di test e i target di addestramento.
-- `xgboost_config.py` & `preprocessing.py`: Componenti che gestiscono la configurazione dei parametri di XGBoost e le tecniche per la trasformazione dei dati (come Scaling e One-Hot Encoding per le variabili categoriche).
-- `benchmark.ipynb`: Notebook Jupyter che calcola le metriche di performance del modello XGBoost.
+- `predictor/`: Modulo dedicato all'interfaccia utente.
+  - `app.py`: Un'applicazione intuitiva sviluppata in **Tkinter** che permette agli utenti di inserire manualmente i parametri di due profili (età, livello di istruzione, carriera, stili comunicativi e tratti di personalità tra cui apertura, estroversione, cordialità, coscienziosità) e ottenere la stima percentuale di affinità calcolata dal modello addestrato.
+- `training/`: Modulo dedicato all'addestramento.
+  - `training.py`: Lo script principale per addestrare il modello. Carica i dati, li divide in Train e Test (80/20) ed esegue l'addestramento costruendo una pipeline completa che integra preprocessing e modello XGBoost. Salva l'intera pipeline in `social_matcher_model.pkl`. Vengono inoltre generati i file `X_test.pkl` e `y_test.pkl`, che contengono rispettivamente i dati di test e i target di addestramento.
+- `model_config/` & `utils/`: Componenti di configurazione parametri XGBoost e trasformazione dati (`xgboost_config.py` e `preprocessing.py`).
+- `results_evaluation/`:
+  - `benchmark.ipynb`: Notebook Jupyter che calcola le metriche di performance del modello XGBoost.
 
 ### 2. Modulo K-Means (`/k-means`)
 Questo modulo implementa l'approccio non supervisionato per estrarre 4 macro-profili psicologici (centroidi) e suggerire affinità basate sulla compatibilità caratteriale.
@@ -38,7 +41,7 @@ Questo modulo implementa l'approccio non supervisionato per estrarre 4 macro-pro
    
 ### I Dataset
 - `cupid_algorithm_dataset.csv`: Il dataset principale adoperato nel progetto. Presenta una raccolta di caratteristiche delle coppie di utenti e un "compatibility_score" risultante.
-- `social_matcher.csv`: Dataset risultante da un processo di pulizia e preprocessing del dataset originale, utilizzato per l'addestramento del modello XGBoost.
+- `social_matcher.csv`: Dataset risultante da un processo di pulizia del dataset originale, utilizzato per l'addestramento del modello XGBoost.
 - `adapted_dataset.csv` e `clustered_dataset.csv`: Dataset derivati per l'addestramento del K-Means e per il motore di ricerca dell'applicazione Streamlit.
 
 ---
@@ -56,16 +59,17 @@ pip install -r requirements.txt
 ## 🛠️ Come usare il progetto?
 
 ### Passo 1: Addestramento del Modello (XGBoost)
-Prima di poter utilizzare l'interfaccia utente, è necessario creare un file di modello funzionante (`.pkl`). Spostati nella cartella `xgboost` e avvia lo script di training:
+Prima di poter utilizzare l'interfaccia utente, è necessario creare un file di modello funzionante (`.pkl`). Spostati nella cartella `xgboost/training` e avvia lo script di training:
 ```bash
-cd xgboost
+cd xgboost/training
 python training.py
 ```
 *Verrà costruita una directory `resources` all'interno della quale saranno salvati il dataset d'addestramento diviso ed il modello addestrato `social_matcher_model.pkl`.*
 
 ### Passo 2: Calcolo delle Affinità (GUI)
-Una volta ottenuto il file `.pkl`, sarà possibile valutare interattivamente nuovi match usando la dashboard. Nello stesso percorso, lancia l'app:
+Una volta ottenuto il file `.pkl`, sarà possibile valutare interattivamente nuovi match usando la dashboard. Spostati nella cartella `xgboost/predictor` e lancia l'app:
 ```bash
+cd xgboost/predictor
 python app.py
 ```
 Inserisci i dati per il Profilo A e per il Profilo B, compila ogni campo e clicca su **"Calcola Affinità"** per ottenere la previsione calcolata dal modello (un numero da 0 a 100%).
@@ -76,8 +80,8 @@ Per testare il modulo non supervisionato e far funzionare l'applicazione web, è
 1. **Adattamento del Dataset:**
    Spostati nella cartella `k-means` ed esegui lo script che destruttura il dataset originale (che conteneva coppie) per creare un bacino di utenti singoli:
    ```bash
-   cd ../k-means
-   python dataset_adapter/dataset_adapter.py
+   cd k-means/dataset_adapter
+   python dataset_adapter.py
    ```
    *(Verrà generato il file `adapted_dataset.csv` pronto per l'elaborazione).*
 
