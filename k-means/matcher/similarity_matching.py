@@ -8,7 +8,10 @@ cartella_script = os.path.dirname(os.path.abspath(__file__))
 # 2. Facciamo UN PASSO INDIETRO per trovare la radice del progetto
 cartella_principale = os.path.dirname(cartella_script)
 
-# 3. Aggiungiamo la radice al radar di Python
+# 3. Facciamo UN ALTRO PASSO INDIETRO per trovare la root principale
+cartella_root = os.path.dirname(cartella_principale)
+
+# 4. Aggiungiamo la radice al radar di Python
 if cartella_principale not in sys.path:
     sys.path.append(cartella_principale)
 
@@ -18,7 +21,7 @@ def trova_match_per_omofilia(cluster_target, numero_match_desiderati=3):
     esattamente allo stesso cluster dell'utente attivo.
     """
     # Andiamo a pescare il "database" aggiornato con i cluster
-    db_path = os.path.join(cartella_principale, 'resources', 'clustered_dataset.csv')
+    db_path = os.path.join(cartella_root, 'data', 'processed', 'clustered_dataset.csv')
     
     if not os.path.exists(db_path):
         print("Errore: Il file 'dataset_con_cluster.csv' non esiste in resources.")

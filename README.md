@@ -30,8 +30,8 @@ Questo modulo implementa l'approccio non supervisionato per estrarre 4 macro-pro
 - `training/`: Contiene il file di training per addestrare il modulo non supervisionato e renderlo pronto all'uso.
 - `results_evaluation/`: Cartella principale dedicata alla validazione e interpretazione dei risultati. Al suo interno comprende:
   - `elbow_point.ipynb` e `silhouette_score.ipynb`: File e analisi per la determinazione oggettiva del numero ottimale di cluster, tramite la minimizzazione dell'Inerzia (Elbow Method) e la validazione della densità dei gruppi (Silhouette Score calcolato su un campione di 50k istanze).
-  - `cluster_profiling.ipynb`: Analisi approfondita dei centroidi estratti. Traduce le coordinate matematiche in profili psicologici reali analizzando le medie dei tratti continui e le mode delle variabili categoriali. Questo step si occupa inoltre di generare il database finale (`clustered_dataset.csv`) assegnando le etichette di cluster ai singoli utenti.
-- `resources/`: Cartella di destinazione per gli artefatti generati dal training, contenente il modello serializzato (`kmeans_model.pkl`) e i database `adapted_dataset.csv` `clustered_dataset.csv`.
+  - `cluster_profiling.ipynb`: Analisi approfondita dei centroidi estratti. Traduce le coordinate matematiche in profili psicologici reali analizzando le medie dei tratti continui e le mode delle variabili categoriali. Questo step si occupa inoltre di generare il database finale (`data/processed/clustered_dataset.csv`) assegnando le etichette di cluster ai singoli utenti.
+- `resources/`: Cartella di destinazione per gli artefatti generati dal training, contenente il modello serializzato (`kmeans_model.pkl`).
 - `matcher/`: Contiene `similarity_matching.py`, il motore logico che applica il principio di omofilia per interrogare il database ed estrarre i profili più affini.
 - `predictor/`: Modulo dedicato all'inferenza e all'interfaccia utente. Contiene:
   - `predict.py`: Assegna i nuovi utenti al cluster corretto calcolando la distanza matematica dai centroidi.
@@ -43,9 +43,8 @@ Questo modulo implementa l'approccio non supervisionato per estrarre 4 macro-pro
 La cartella `data/` contiene i dataset principali del progetto, divisi in raw e processed:
 - `data/raw/cupid_dataset.csv`: Il dataset originale adoperato nel progetto. Presenta una raccolta di caratteristiche delle coppie di individui.
 - `data/processed/social_matcher.csv`: Dataset risultante da un processo di pulizia del dataset originale, utilizzato per l'addestramento del modello XGBoost.
-
-Altri dataset derivati si trovano nel modulo K-Means:
-- `adapted_dataset.csv` e `clustered_dataset.csv`: Dataset derivati per l'addestramento del K-Means e per il motore di ricerca dell'applicazione Streamlit.
+- `data/processed/adapted_dataset.csv`: Dataset derivato dal processamento del dataset originale, utilizzato per l'addestramento del modello K-Means.
+- `data/processed/clustered_dataset.csv`: Dataset risultante dall'assegnazione dei cluster agli utenti, utilizzato per il motore di ricerca dell'applicazione Streamlit.
 
 ---
 
@@ -86,7 +85,7 @@ Per testare il modulo non supervisionato e far funzionare l'applicazione web, è
    cd k-means/dataset_adapter
    python dataset_adapter.py
    ```
-   *(Verrà generato il file `adapted_dataset.csv` pronto per l'elaborazione).*
+   *(Verrà generato il file `data/processed/adapted_dataset.csv` pronto per l'elaborazione).*
 
 2. **Addestramento del Modello:**
    Esegui gli script presenti nella cartella `training/`. Questa fase si occupa specificamente di addestrare l'algoritmo K-Means, applicare il preprocessing e assegnare i cluster. L'addestramento popolerà automaticamente la cartella `resources/` con il file fondamentale per l'app:
@@ -95,7 +94,7 @@ Per testare il modulo non supervisionato e far funzionare l'applicazione web, è
 3. **Valutazione e Profilazione (Analisi Indipendente):**
    I file per la validazione matematica e psicologica del modello si trovano nella cartella `results_evaluation/`. Puoi eseguirli separatamente per:
    - Verificare le metriche di densità e inerzia (tramite gli script `elbow_point.ipynb` e `silhouette_score.ipynb`).
-   - Analizzare nel dettaglio i tratti psicologici dei centroidi ( `cluster_profiling.ipynb`). Quest'ultimo genererà anche `clustered_dataset.csv` che verrà usato dall'applicazione.
+   - Analizzare nel dettaglio i tratti psicologici dei centroidi ( `cluster_profiling.ipynb`). Quest'ultimo genererà anche `data/processed/clustered_dataset.csv` che verrà usato dall'applicazione.
 
 ### Passo 4: Avvio della Web App (Streamlit)
 Una volta che l'addestramento ha generato il modello e hai creato il database storicizzato, sei pronto per lanciare la piattaforma interattiva di Social Matching.

@@ -11,8 +11,8 @@ cartella_kmeans = os.path.dirname(cartella_script)
 cartella_root = os.path.dirname(cartella_kmeans)
 
 # 4. Assegniamo i percorsi corretti
-input_csv = os.path.join(cartella_root, 'cupid_algorithm_dataset.csv')
-output_csv = os.path.join(cartella_kmeans, 'resources', 'adapted_dataset.csv')
+input_csv = os.path.join(cartella_root, 'data', 'raw', 'cupid_dataset.csv')
+output_csv = os.path.join(cartella_root, 'data', 'processed', 'adapted_dataset.csv')
 
 # 5. Leggiamo il file csv
 df = pd.read_csv(input_csv)
