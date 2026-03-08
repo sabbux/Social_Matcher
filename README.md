@@ -39,9 +39,12 @@ Questo modulo implementa l'approccio non supervisionato per estrarre 4 macro-pro
     - **Confronto di Gruppo:** Permette di inserire fino a 5 persone e verificare istantaneamente se appartengono allo stesso cluster psicologico.
     - **Trova Profili Affini:** Ricerca dinamica nel database per estrarre i 3 profili perfetti per l'utente.
    
-### I Dataset
-- `cupid_algorithm_dataset.csv`: Il dataset principale adoperato nel progetto. Presenta una raccolta di caratteristiche delle coppie di utenti e un "compatibility_score" risultante.
-- `social_matcher.csv`: Dataset risultante da un processo di pulizia del dataset originale, utilizzato per l'addestramento del modello XGBoost.
+### 3. Cartella Dati (`/data`)
+La cartella `data/` contiene i dataset principali del progetto, divisi in raw e processed:
+- `data/raw/cupid_dataset.csv`: Il dataset originale adoperato nel progetto. Presenta una raccolta di caratteristiche delle coppie di individui.
+- `data/processed/social_matcher.csv`: Dataset risultante da un processo di pulizia del dataset originale, utilizzato per l'addestramento del modello XGBoost.
+
+Altri dataset derivati si trovano nel modulo K-Means:
 - `adapted_dataset.csv` e `clustered_dataset.csv`: Dataset derivati per l'addestramento del K-Means e per il motore di ricerca dell'applicazione Streamlit.
 
 ---
