@@ -101,12 +101,12 @@ Una volta che l'addestramento ha generato il modello e hai creato il database st
 
 1. Posizionati nella cartella del predittore:
    ```bash
-   cd predictor
+   cd k-means/predictor
    ```
 
 2. Avvia l'interfaccia web tramite Streamlit:
    ```bash
-   streamlit run app.py
+   python -m streamlit run app.py
    ```
 
 3. **Esplora la Piattaforma:** Si aprirà automaticamente una finestra nel tuo browser. Usa i tab in alto per navigare tra le funzionalità:
