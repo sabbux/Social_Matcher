@@ -52,6 +52,9 @@ La cartella `data/` contiene i dataset principali del progetto, divisi in raw e 
 - `data/processed/adapted_dataset.csv`: Dataset derivato dal processamento del dataset originale, utilizzato per l'addestramento del modello K-Means.
 - `data/processed/clustered_dataset.csv`: Dataset risultante dall'assegnazione dei cluster agli utenti, utilizzato per il motore di ricerca dell'applicazione Streamlit.
 
+### 4. Cartella Demo (`/demo`)
+La cartella `demo/` contiene i video delle demo dei due modelli in azione, implementate attraverso le rispettive GUI.
+
 ---
 
 ## 🚀 Installazione e Requisiti
