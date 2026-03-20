@@ -39,7 +39,13 @@ Questo modulo implementa l'approccio non supervisionato per estrarre 4 macro-pro
     - **Confronto di Gruppo:** Permette di inserire fino a 5 persone e verificare istantaneamente se appartengono allo stesso cluster psicologico.
     - **Trova Profili Affini:** Ricerca dinamica nel database per estrarre i 3 profili perfetti per l'utente.
    
-### 3. Cartella Dati (`/data`)
+### 3. Esplorazione e Preparazione Dati
+Prima dell'addestramento dei modelli, i dati grezzi vengono analizzati e processati tramite appositi script presenti nella root del progetto:
+
+- `data_exploration.ipynb`: Notebook Jupyter per l'esplorazione preliminare del dataset originale. Analizza la distribuzione della variabile target (tramite boxplot e istogrammi), fornisce le statistiche descrittive delle tuple e stima l'importanza accurata delle feature avvalendosi di architetture a Random Forest e della tecnica analitica della Permutation Importance.
+- `data_preparation.py`: Script Python dedicato alla pulizia e formatattazione del dato. Esegue operazioni di feature engineering quali: rimozione di attributi non strettamente necessari, categorizzazione di variabili numeriche o continue in intervalli discreti (come fasce di età prefissate), mappatura e traduzione etichettata (es. traduzione informale da "linguaggi dell'amore" a "stili di comunicazione") e infine gestisce i valori nulli (NaN imputing tramite moda o media). L'output processato viene salvato sotto `data/processed/social_matcher.csv`.
+
+### 4. Cartella Dati (`/data`)
 La cartella `data/` contiene i dataset principali del progetto, divisi in raw e processed:
 - `data/raw/cupid_dataset.csv`: Il dataset originale adoperato nel progetto. Presenta una raccolta di caratteristiche delle coppie di individui.
 - `data/processed/social_matcher.csv`: Dataset risultante da un processo di pulizia del dataset originale, utilizzato per l'addestramento del modello XGBoost.
